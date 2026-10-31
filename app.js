@@ -48,7 +48,7 @@ function tick(){
     $('dateFr').textContent = cap(fmtFr.format(d));
     $('dateAr').textContent = fmtAr.format(d);
     if(fmtHFr){
-      $('hijriFr').textContent = '🌙 ' + fmtHFr.format(d).replace(/\s?AH$/,' H');
+      $('hijriFr').textContent = '🌙 ' + hijriFr(d);
       $('hijriAr').textContent = '🌙 ' + fmtHAr.format(d);
     }
   }
