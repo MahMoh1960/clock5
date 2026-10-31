@@ -16,7 +16,7 @@ jobs:
       - name: Preparer le projet Android
         run: |
           mkdir www
-          cp index.html www/
+          cp index.html app.js www/
           npm init -y
           npm i @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "Horloge" com.mahmoh.horloge --web-dir=www
