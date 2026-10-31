@@ -1,23 +1,122 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="2;url=clock5.apk">
-  <title>安卓 5 桌面时钟下载</title>
-  <style>
-    body { margin: 0; padding: 24px; background: #101317; color: #f4f4f4; font: 18px/1.6 sans-serif; }
-    main { max-width: 560px; margin: 8vh auto; }
-    a { display: inline-block; padding: 14px 20px; background: #9bbce7; color: #101317; border-radius: 8px; text-decoration: none; font-weight: bold; }
-    small { display: block; margin-top: 24px; color: #b8c0ca; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Horloge | ساعة</title>
+<style>
+  :root{
+    --bg1:#0f2027; --bg2:#203a43; --bg3:#2c5364;
+    --accent1:#ffd200; --accent2:#ff5f6d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{
+    font-family:"Segoe UI",Roboto,"Noto Naskh Arabic","Noto Sans Arabic",sans-serif;
+    color:#fff;
+    background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+    background-size:300% 300%;
+    animation:flow 40s ease infinite;
+    display:flex;flex-direction:column;justify-content:space-between;
+    padding:max(2vmin,12px) 4vmin;
+    transition:background 2s;
+  }
+  @keyframes flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  .top{display:flex;gap:2vmin;justify-content:space-between;align-items:stretch}
+  .card{
+    flex:1;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:3vmin;padding:1.6vmin 2.4vmin;
+    backdrop-filter:blur(6px);
+    text-align:center;
+    display:flex;flex-direction:column;justify-content:center;gap:.4vmin;
+  }
+  .card .big{font-size:clamp(20px,5vmin,44px);font-weight:700}
+  .card .small{font-size:clamp(11px,2.4vmin,20px);opacity:.9}
+  #batCard .big{color:#7dffb3}
+  #wCard .big{color:var(--accent1)}
+  #cityCard .big{color:#8fd3ff}
+
+  .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0}
+  .greet{font-size:clamp(14px,3.4vmin,30px);letter-spacing:.05em;
+    background:linear-gradient(90deg,#ffd200,#ff5f6d,#c471ed);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
+  .time{
+    font-size:min(24vw,46vh);line-height:1;font-weight:800;
+    font-variant-numeric:tabular-nums;
+    background:linear-gradient(90deg,#ffd200,#ff5f6d 45%,#c471ed 75%,#12c2e9);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 .6vmin 2vmin rgba(0,0,0,.35));
+  }
+  .time small{font-size:.28em;vertical-align:baseline;margin-inline-start:.15em;
+    background:linear-gradient(90deg,#12c2e9,#7dffb3);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .dates{display:grid;grid-template-columns:1fr 1fr;gap:1.4vmin 4vmin;width:100%;max-width:1100px;margin-top:1vmin}
+  .dates div{font-size:clamp(14px,3.6vmin,34px);font-weight:600;text-align:center}
+  .fr{color:#ffd27d}
+  .ar{color:#9bf6ff;direction:rtl}
+  .hfr{color:#ffadc6;font-size:clamp(12px,3vmin,28px)!important}
+  .har{color:#caffbf;direction:rtl;font-size:clamp(12px,3vmin,28px)!important}
+
+  .foot{text-align:center;font-size:clamp(10px,2vmin,16px);opacity:.7;padding-bottom:.5vmin}
+  .foot a{color:#9bf6ff}
+
+  @media (orientation:portrait){
+    .time{font-size:30vw}
+    .top{flex-wrap:wrap}
+    .card{flex:1 1 40%}
+    .dates{grid-template-columns:1fr}
+  }
+</style>
 </head>
 <body>
-<main>
-  <h1>安卓 5 桌面时钟</h1>
-  <p>即将开始下载测试版安装包。如果没有自动下载，请点下面的按钮。</p>
-  <p><a href="clock5.apk">下载 clock5.apk</a></p>
-  <small>最低 Android 5.0。此版本已通过构建和单元测试，尚未在 Android 5.0 实机上验收。下载后在手机上打开 APK，并按系统提示允许安装。</small>
-</main>
-</body>
-</html>
+  <div class="top">
+    <div class="card" id="batCard">
+      <div class="big" id="bat">— %</div>
+      <div class="small" id="batState">Batterie · البطارية</div>
+    </div>
+    <div class="card" id="wCard">
+      <div class="big" id="temp">--°C</div>
+      <div class="small" id="wDesc">Météo · الطقس</div>
+    </div>
+    <div class="card" id="cityCard">
+      <div class="big" id="city">📍</div>
+      <div class="small" id="cityAr">—</div>
+    </div>
+  </div>
+
+  <div class="center">
+    <div class="greet" id="greet"></div>
+    <div class="time"><span id="hm">--:--</span><small id="sec">--</small></div>
+    <div class="dates">
+      <div class="fr" id="dateFr"></div>
+      <div class="ar" id="dateAr"></div>
+      <div class="hfr" id="hijriFr"></div>
+      <div class="har" id="hijriAr"></div>
+    </div>
+  </div>
+
+  <div class="foot">Météo · الطقس : <a href="https://open-meteo.com/">Open-Meteo</a></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const cap = s => s.charAt(0).toUpperCase()+s.slice(1);
+
+/* ---------- Thèmes de couleurs selon l'heure ---------- */
+const THEMES = {
+  dawn:  ['#41295a','#c2587a','#f7b267'],
+  day:   ['#0f4c81','#1fa2ff','#12d8fa'],
+  dusk:  ['#42275a','#c0392b','#f39c12'],
+  night: ['#0f2027','#203a43','#2c5364']
+};
+function theme(h){
+  if(h>=5 && h<8) return THEMES.dawn;
+  if(h>=8 && h<17) return THEMES.day;
+  if(h>=17 && h<20) return THEMES.dusk;
+  return THEMES.night;
+}
+function greeting(h){
+  if(h>=5 && h<12)  return 'Bonjour · صباح الخير ☀️';
+  if(h>=12 && h<18) return 'Bon après-midi · نهارك سعيد 🌤️';
+  if(h>=18 && h
