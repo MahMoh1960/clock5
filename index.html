@@ -99,24 +99,8 @@
   <div class="foot">Météo · الطقس : <a href="https://open-meteo.com/">Open-Meteo</a></div>
 
 <script>
-const $ = id => document.getElementById(id);
-const pad = n => String(n).padStart(2,'0');
-const cap = s => s.charAt(0).toUpperCase()+s.slice(1);
-
-/* ---------- Thèmes de couleurs selon l'heure ---------- */
-const THEMES = {
-  dawn:  ['#41295a','#c2587a','#f7b267'],
-  day:   ['#0f4c81','#1fa2ff','#12d8fa'],
-  dusk:  ['#42275a','#c0392b','#f39c12'],
-  night: ['#0f2027','#203a43','#2c5364']
-};
-function theme(h){
-  if(h>=5 && h<8) return THEMES.dawn;
-  if(h>=8 && h<17) return THEMES.day;
-  if(h>=17 && h<20) return THEMES.dusk;
-  return THEMES.night;
-}
-function greeting(h){
-  if(h>=5 && h<12)  return 'Bonjour · صباح الخير ☀️';
-  if(h>=12 && h<18) return 'Bon après-midi · نهارك سعيد 🌤️';
-  if(h>=18 && h
+window.onerror=function(m,s,l){var g=document.getElementById('greet');if(g)g.textContent='Erreur JS : '+m+' (ligne '+l+')';};
+</script>
+<script src="app.js" onerror="document.getElementById('greet').textContent='app.js introuvable'"></script>
+</body>
+</html>
