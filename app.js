@@ -30,7 +30,14 @@ try{
   fmtHFr = new Intl.DateTimeFormat('fr-FR-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'});
   fmtHAr = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long',year:'numeric'});
 }catch(e){}
-
+const MOIS_H=["Mouharram","Safar","Rabi' al-awwal","Rabi' ath-thani","Joumada al-oula","Joumada ath-thania","Rajab","Chaabane","Ramadan","Chawwal","Dhou al-qi'da","Dhou al-hijja"];
+function hijriFr(d){
+  try{
+    const p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'numeric',year:'numeric'}).formatToParts(d);
+    const g=t=>(p.find(x=>x.type===t)||{}).value;
+    return parseInt(g('day'))+' '+MOIS_H[parseInt(g('month'))-1]+' '+parseInt(g('year'))+' H';
+  }catch(e){return '';}
+}
 let lastDay = -1, lastTheme = '';
 function tick(){
   const d = new Date();
